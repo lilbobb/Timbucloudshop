@@ -7,6 +7,7 @@ import Cart from "./pages/Cart";
 import Home from "./pages/Home";
 import Viewcart from "./pages/Viewcart";
 import Checkout from "./pages/Checkout"; // Ensure correct capitalization
+import OrderComplete from "./pages/Ordercomplete";
 
 const App = () => {
   return (
@@ -19,7 +20,8 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/viewcart" element={<Viewcart />} />
-              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/Checkout" element={<Checkout />} />
+              <Route path="/Ordercomplete" element={<OrderComplete />} />
             </Routes>
           </main>
           <Footer />

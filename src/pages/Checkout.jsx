@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const [billingDetails, setBillingDetails] = useState({
@@ -15,9 +16,16 @@ const Checkout = () => {
     orderNote: "",
   });
 
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setBillingDetails({ ...billingDetails, [name]: value });
+  };
+
+  const handlePaymentMethodChange = (e) => {
+    setPaymentMethod(e.target.value);
   };
 
   // Dummy order data for demonstration
@@ -29,12 +37,29 @@ const Checkout = () => {
   // Calculate total order price
   const total = orderSummary.reduce((acc, item) => acc + item.price, 0);
 
+  const handlePlaceOrder = () => {
+    const orderNumber = Math.floor(Math.random() * 1000000000);
+    const date = new Date().toLocaleDateString();
+
+    const orderDetails = {
+      billingDetails,
+      orderSummary,
+      total,
+      orderNumber,
+      date,
+      paymentMethod,
+    };
+
+    navigate("/order-complete", { state: orderDetails });
+  };
+
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white shadow-md p-4 border border-gray-600">
-          <h2 className="text-xl text-red-900 font-semibold mb-4">BILLING DEATILS</h2>
+          <h2 className="text-xl text-red-900 font-semibold mb-4">BILLING DETAILS</h2>
           <form className="space-y-4">
+            {/* Billing details form fields */}
             <div>
               <label className="block text-gray-700">Email Address</label>
               <input
@@ -174,7 +199,13 @@ const Checkout = () => {
           </div>
           <div className="mt-4">
             <div className="mb-2">
-              <input type="radio" id="bankTransfer" name="paymentMethod" />
+              <input
+                type="radio"
+                id="bankTransfer"
+                name="paymentMethod"
+                value="Direct Bank Transfer"
+                onChange={handlePaymentMethodChange}
+              />
               <label htmlFor="bankTransfer" className="ml-2">
                 Direct Bank Transfer (faster shipping)
               </label>
@@ -185,14 +216,23 @@ const Checkout = () => {
               </p>
             </div>
             <div className="mb-4">
-              <input type="radio" id="cashOnDelivery" name="paymentMethod" />
+              <input
+                type="radio"
+                id="cashOnDelivery"
+                name="paymentMethod"
+                value="Cash on Delivery"
+                onChange={handlePaymentMethodChange}
+              />
               <label htmlFor="cashOnDelivery" className="ml-2 border-gray-500">
                 Cash on Delivery
               </label>
             </div>
-            <button className="w-full bg-red-900 text-white px-4 py-2 rounded hover:bg-red-600">
+            <Link to="/ordercomplete"
+              className="w-full bg-red-900 text-white px-4 py-2 rounded hover:bg-red-600"
+              onClick={handlePlaceOrder}
+            >
               Place Order
-            </button>
+            </Link>
           </div>
         </div>
       </div>

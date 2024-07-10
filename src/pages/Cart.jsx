@@ -56,12 +56,12 @@ const Cart = () => {
           {/* Subtotal and Checkout */}
           <div className="flex flex-col mt-4">
             <div className="flex justify-center mb-2">
-              <p className="font-semibold">Subtotal:</p>
+              <p className="font-semibold px-2">Subtotal:</p>
               <p className="font-semibold">${getTotalPrice().toFixed(2)}</p>
             </div>
             <Link
               to="/Viewcart"
-              className="bg-black text-white px-4 py-2 hover:bg-gray-800 text-center justify-center"
+              className="bg-black m:bg-orange-900 text-white px-4 py-2 hover:bg-gray-800 text-center justify-center"
             >
               VIEW CART
             </Link>

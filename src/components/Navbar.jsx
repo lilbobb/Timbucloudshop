@@ -5,7 +5,7 @@ import {
   faBars,
   faUser,
   faQuestion,
-  faTimes, // Add this line to import the close icon
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -19,19 +19,32 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-200 p-4">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+      <div className="container mx-auto flex items-center justify-between md:justify-start relative">
+        <div className="flex items-center w-full justify-between md:justify-start">
           <FontAwesomeIcon
             icon={faBars}
-            className="text-black md:hidden cursor-pointer"
+            className="text-black md:hidden cursor-pointer mr-2"
             onClick={toggleMenu}
           />
           <Link
             to="/"
-            className="text-orange-700 text-lg font-bold mx-auto md:ml-0"
+            className="text-orange-700 text-lg font-bold absolute left-1/2 transform -translate-x-1/2 md:relative md:left-auto md:transform-none md:ml-0"
           >
             WRIST'S
           </Link>
+          <div className="md:hidden flex items-center space-x-4">
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="text-black cursor-pointer"
+              onClick={() => alert("Search icon clicked")}
+            />
+            <Link to="/cart">
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                className="text-black px-4 hover:text-gray-700"
+              />
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -63,10 +76,10 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Search */}
-        <div className="relative text-black flex-1 mx-6 hidden md:flex items-center">
+        <div className="hidden md:flex items-center flex-1 mx-6 relative">
           <input
             type="text"
-            className="bg-white border-2 border-red-900 h-10 px-10 py-2 w-full text-sm focus:outline-none"
+            className="bg-white border-2 border-red-900 h-10 px-10 py-5 w-full text-sm focus:outline-none md:w-auto md:flex-grow"
             placeholder="Search watch categories"
           />
           <FontAwesomeIcon
@@ -100,8 +113,8 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Cart Icon */}
-        <div className="flex items-center space-x-4">
+        {/* Cart Icon for Large Screens */}
+        <div className="hidden md:flex items-center space-x-4 ml-6">
           <Link to="/cart">
             <FontAwesomeIcon
               icon={faCartShopping}

@@ -2,6 +2,7 @@ import React from "react";
 import { useCart } from "../components/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const ViewCart = () => {
   const { cartItems, setCartItems } = useCart();
@@ -28,55 +29,109 @@ const ViewCart = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
-      <div className="flex flex-col lg:flex-row">
-        <div className="w-full lg:w-3/4 bg-gray-100 p-4 rounded-lg shadow-md mb-4 lg:mb-0">
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="w-full lg:w-3/4 bg-gray-100 p-4 rounded-lg shadow-md">
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
-            cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center justify-between mb-2"
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-16 h-16 object-cover rounded"
-                />
-                <div className="flex-1 ml-4">
-                  <h3 className="text-lg font-medium">{item.name}</h3>
-                  <p className="text-gray-600">
-                    ${item.price} x {item.quantity}
-                  </p>
+            <>
+              {cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between mb-4"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                  <div className="flex-1 ml-4">
+                    <h3 className="text-lg font-medium">{item.name}</h3>
+                    <p className="text-gray-600">${item.price}</p>
+                    <div className="flex items-center mt-2">
+                      <button
+                        className="px-2 py-1 bg-gray-300 hover:bg-gray-400"
+                        onClick={() =>
+                          setCartItems((prevItems) =>
+                            prevItems.map((cartItem) =>
+                              cartItem.id === item.id && cartItem.quantity > 1
+                                ? {
+                                    ...cartItem,
+                                    quantity: cartItem.quantity - 1,
+                                  }
+                                : cartItem
+                            )
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <span className="px-4">{item.quantity}</span>
+                      <button
+                        className="px-2 py-1 bg-gray-300 hover:bg-gray-400"
+                        onClick={() =>
+                          setCartItems((prevItems) =>
+                            prevItems.map((cartItem) =>
+                              cartItem.id === item.id
+                                ? {
+                                    ...cartItem,
+                                    quantity: cartItem.quantity + 1,
+                                  }
+                                : cartItem
+                            )
+                          )
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <button
+                      onClick={() => handleRemoveFromCart(item.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                    <p className="font-semibold ml-4">
+                      $
+                      {(
+                        parseFloat(item.price) * parseInt(item.quantity)
+                      ).toFixed(2)}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <button
-                    onClick={() => handleRemoveFromCart(item.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                  <p className="font-semibold ml-4">
-                    ${parseFloat(item.price) * parseInt(item.quantity)}
-                  </p>
-                </div>
-              </div>
-            ))
+              ))}
+              <button className="w-full border border-red-700 text-red-600 px-4 py-2 hover:bg-gray-200 mt-4">
+                <Link to="/"> CONTINUE SHOPPING</Link>
+              </button>
+            </>
           )}
         </div>
         <div className="w-full lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Cart Summary</h2>
-          <div className="flex justify-between mb-2">
-            <p className="font-semibold">Subtotal:</p>
-            <p className="font-semibold">${getTotalPrice().toFixed(2)}</p>
+          <h2 className="text-xl font-semibold mb-4">Cart Totals</h2>
+          <div className="flex flex-col space-y-2">
+            <div className="flex justify-between">
+              <p className="font-semibold">Subtotal:</p>
+              <p className="font-semibold">${getTotalPrice().toFixed(2)}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="font-semibold">Shipping:</p>
+              <p className="font-semibold">$5.00</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="font-semibold">Total:</p>
+              <p className="font-semibold">
+                ${(getTotalPrice() + 5).toFixed(2)}
+              </p>
+            </div>
+            <Link
+              to="/checkout"
+              className="w-full bg-red-700 text-white text-center px-4 py-2 hover:bg-red-500 mt-4"
+            >
+              PROCEED TO CHECKOUT
+            </Link>
           </div>
-          <button className="w-full bg-black text-white px-4 py-2 hover:bg-gray-800 mb-2">
-            Checkout
-          </button>
-          <button className="w-full bg-black text-white px-4 py-2 hover:bg-gray-800">
-            Order Complete
-          </button>
         </div>
       </div>
     </div>
