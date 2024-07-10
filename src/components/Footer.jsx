@@ -9,7 +9,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="bg-gray-200 p-8 mt-auto">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
         <div>
           <h1 className="text-xl font-bold text-black mb-2">About Us</h1>
           <p>
@@ -22,7 +22,7 @@ const Footer = () => {
           <h1 className="text-xl font-bold text-black mb-2">Contact Us</h1>
           <p>Main office, Belton TX Anthony Way, Sax</p>
           <p className="border-t-2 border-gray-600 mt-2">+91325678900</p>
-          <div className="flex justify-center md:justify-start space-x-4 mt-2">
+          <div className="flex justify-start space-x-4 mt-2">
             <FontAwesomeIcon
               icon={faFacebook}
               className="text-gray-700 hover:text-blue-600"
