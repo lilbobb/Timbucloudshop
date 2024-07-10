@@ -5,6 +5,7 @@ import {
   faBars,
   faUser,
   faQuestion,
+  faTimes, // Add this line to import the close icon
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -40,6 +41,11 @@ const Navbar = () => {
           }`}
         >
           <div className="flex flex-col items-center mt-12">
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="text-black cursor-pointer mb-4"
+              onClick={toggleMenu}
+            />
             <Link to="/" className="text-black text-lg font-semibold my-3">
               Home
             </Link>
