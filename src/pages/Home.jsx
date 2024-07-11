@@ -14,7 +14,7 @@ const Home = () => {
         </p>
         <p>also available in different sizes.</p>
       </header>
-      <div className="container mx-auto p-4 max-w-5xl">
+      <div className="container mx-auto p-4 max-w-5xl mb-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
