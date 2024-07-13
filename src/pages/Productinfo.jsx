@@ -34,13 +34,10 @@ const ProductDetails = () => {
 
   const { unique_id, name, photos, current_price, description } = product;
 
-  // Safely access current_price[0].LRD[0] using optional chaining
   const price = current_price?.[0]?.LRD?.[0] ?? 0;
 
-  // Ensure price is a number and default to "N/A" if not available
   const priceDisplay = !isNaN(price) ? price.toFixed(2) : "N/A";
 
-  // Define imageUrl, ensuring to provide a fallback
   const imageUrl =
     photos && photos.length > 0
       ? `https://api.timbu.cloud/images/${photos[0].url}`
@@ -54,7 +51,7 @@ const ProductDetails = () => {
           alt={name}
           className="object-cover w-full h-64"
           onError={(e) => {
-            e.target.src = "/fallback-image.png"; // Fallback image
+            e.target.src = "/fallback-image.png"; 
           }}
         />
         <div className="p-4">
@@ -64,11 +61,11 @@ const ProductDetails = () => {
           <button
             onClick={() =>
               addToCart({
-                id: unique_id,
+                id: unique_id, 
                 name,
                 price,
-                imageUrl, // Added imageUrl to the cart item
-                quantity: 1, // Default quantity
+                quantity: 1,
+                imageUrl, 
               })
             }
             className="mt-4 px-4 py-2 bg-[#A02724] text-white rounded"
