@@ -15,7 +15,10 @@ const ViewCart = () => {
       if (!isNaN(itemPrice) && !isNaN(itemQuantity)) {
         return total + itemPrice * itemQuantity;
       } else {
-        console.error(`Invalid price or quantity for item ${item.id}`);
+        console.error(`Invalid price or quantity for item ${item.id}:`, {
+          price: item.price,
+          quantity: item.quantity,
+        });
         return total;
       }
     }, 0);
@@ -30,7 +33,7 @@ const ViewCart = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col lg:flex-row gap-4">
-        <div className="w-full lg:w-3/4 bg-gray-100 p-4 rounded-lg shadow-md">
+        <div className="w-full lg:w-3/4 p-4">
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
@@ -47,7 +50,9 @@ const ViewCart = () => {
                   />
                   <div className="flex-1 ml-4">
                     <h3 className="text-lg font-medium">{item.name}</h3>
-                    <p className="text-gray-600">${item.price}</p>
+                    <p className="text-gray-600">
+                      ${parseFloat(item.price || 0).toFixed(2)}
+                    </p>
                     <div className="flex items-center mt-2">
                       <button
                         className="px-2 py-1 bg-gray-300 hover:bg-gray-400"
@@ -96,7 +101,7 @@ const ViewCart = () => {
                     <p className="font-semibold ml-4">
                       $
                       {(
-                        parseFloat(item.price) * parseInt(item.quantity)
+                        parseFloat(item.price || 0) * parseInt(item.quantity)
                       ).toFixed(2)}
                     </p>
                   </div>
@@ -108,7 +113,7 @@ const ViewCart = () => {
             </>
           )}
         </div>
-        <div className="w-full lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow-md">
+        <div className="w-full lg:w-1/4 p-4">
           <h2 className="text-xl font-semibold mb-4">Cart Totals</h2>
           <div className="flex flex-col space-y-2">
             <div className="flex justify-between">
@@ -127,7 +132,7 @@ const ViewCart = () => {
             </div>
             <Link
               to="/checkout"
-              className="w-full bg-red-700 text-white text-center px-4 py-2 hover:bg-red-500 mt-4"
+              className="w-full bg-red-700 text-white text-center px-4 py-2 hover:bg-red-500 mt-4 lg:bg-blue-700 lg:hover:bg-blue-500"
             >
               PROCEED TO CHECKOUT
             </Link>

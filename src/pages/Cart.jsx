@@ -5,12 +5,10 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { cartItems, setCartItems, getTotalPrice } = useCart(); // Ensure setCartItems is included
+  const { cartItems, removeFromCart, getTotalPrice } = useCart();
 
   const handleRemoveFromCart = (productId) => {
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== productId)
-    );
+    removeFromCart(productId);
   };
 
   return (
@@ -27,20 +25,18 @@ const Cart = () => {
               key={item.id}
               className="flex items-center justify-between mb-2"
             >
-              {/* Product Image */}
               <img
-                src={item.image} // Replace with your image URL or source
+                src={item.imageUrl} // Updated to use imageUrl
                 alt={item.name}
                 className="w-16 h-16 object-cover rounded"
               />
               <div className="flex-1 ml-4">
                 <h3 className="text-lg font-medium">{item.name}</h3>
                 <p className="text-gray-600">
-                  ${item.price} x {item.quantity}
+                  ${parseFloat(item.price).toFixed(2)} x {item.quantity}
                 </p>
               </div>
               <div className="flex items-center">
-                {/* Delete Icon */}
                 <button
                   onClick={() => handleRemoveFromCart(item.id)}
                   className="text-red-500 hover:text-red-700"
@@ -48,20 +44,22 @@ const Cart = () => {
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <p className="font-semibold ml-4">
-                  ${parseFloat(item.price) * parseInt(item.quantity)}
+                  $
+                  {(parseFloat(item.price) * parseInt(item.quantity)).toFixed(
+                    2
+                  )}
                 </p>
               </div>
             </div>
           ))}
-          {/* Subtotal and Checkout */}
           <div className="flex flex-col mt-4">
             <div className="flex justify-center mb-2">
               <p className="font-semibold px-2">Subtotal:</p>
               <p className="font-semibold">${getTotalPrice().toFixed(2)}</p>
             </div>
             <Link
-              to="/Viewcart"
-              className="bg-black m:bg-orange-900 text-white px-4 py-2 hover:bg-gray-800 text-center justify-center"
+              to="/viewcart"
+              className="bg-black text-white px-4 py-2 hover:bg-gray-800 text-center justify-center"
             >
               VIEW CART
             </Link>

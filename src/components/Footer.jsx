@@ -8,7 +8,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-gray-200 p-8 mt-auto">
+    <div className="bg-[#EBEBEB] p-8 mt-auto border-t-2 border-[#A22D2A]">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
         <div>
           <h1 className="text-xl font-bold text-black mb-2">About Us</h1>
@@ -44,7 +44,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="text-center mt-6 font-bold">
-        © 2024 Wrist. All rights reserved.
+        2024 copyright
       </p>
     </div>
   );

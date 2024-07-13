@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../components/CartContext";
 
 const Checkout = () => {
+  const { cartItems, getTotalPrice } = useCart();
   const [billingDetails, setBillingDetails] = useState({
     email: "",
     firstName: "",
@@ -28,14 +30,8 @@ const Checkout = () => {
     setPaymentMethod(e.target.value);
   };
 
-  // Dummy order data for demonstration
-  const orderSummary = [
-    { product: "Product 1", price: 20.0 },
-    { product: "Product 2", price: 30.0 },
-  ];
-
-  // Calculate total order price
-  const total = orderSummary.reduce((acc, item) => acc + item.price, 0);
+  // Calculate total order price from cart items
+  const total = getTotalPrice();
 
   const handlePlaceOrder = () => {
     const orderNumber = Math.floor(Math.random() * 1000000000);
@@ -43,21 +39,23 @@ const Checkout = () => {
 
     const orderDetails = {
       billingDetails,
-      orderSummary,
+      orderSummary: cartItems,
       total,
       orderNumber,
       date,
       paymentMethod,
     };
 
-    navigate("/order-complete", { state: orderDetails });
+    navigate("/ordercomplete", { state: orderDetails });
   };
 
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white shadow-md p-4 border border-gray-600">
-          <h2 className="text-xl text-red-900 font-semibold mb-4">BILLING DETAILS</h2>
+          <h2 className="text-xl text-red-900 font-semibold mb-4">
+            BILLING DETAILS
+          </h2>
           <form className="space-y-4">
             {/* Billing details form fields */}
             <div>
@@ -79,7 +77,7 @@ const Checkout = () => {
                   name="firstName"
                   value={billingDetails.firstName}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-500 p-2 "
+                  className="w-full border border-gray-500 p-2"
                   required
                 />
               </div>
@@ -102,7 +100,7 @@ const Checkout = () => {
                 name="country"
                 value={billingDetails.country}
                 onChange={handleInputChange}
-                className="w-full border border-gray-500 p-2 "
+                className="w-full border border-gray-500 p-2"
                 required
               />
             </div>
@@ -114,7 +112,7 @@ const Checkout = () => {
                   name="address"
                   value={billingDetails.address}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-500 p-2 "
+                  className="w-full border border-gray-500 p-2"
                   required
                 />
               </div>
@@ -125,7 +123,7 @@ const Checkout = () => {
                   name="apartment"
                   value={billingDetails.apartment}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-500 p-2 "
+                  className="w-full border border-gray-500 p-2"
                 />
               </div>
             </div>
@@ -136,7 +134,7 @@ const Checkout = () => {
                 name="city"
                 value={billingDetails.city}
                 onChange={handleInputChange}
-                className="w-full border border-gray-500 p-2 "
+                className="w-full border border-gray-500 p-2"
                 required
               />
             </div>
@@ -146,7 +144,7 @@ const Checkout = () => {
                 name="state"
                 value={billingDetails.state}
                 onChange={handleInputChange}
-                className="w-full border border-gray-500 p-2 "
+                className="w-full border border-gray-500 p-2"
                 required
               >
                 <option value="">Select an option</option>
@@ -160,17 +158,17 @@ const Checkout = () => {
                 name="phone"
                 value={billingDetails.phone}
                 onChange={handleInputChange}
-                className="w-full border border-gray-500 p-2 "
+                className="w-full border border-gray-500 p-2"
                 required
               />
             </div>
-            <div >
+            <div>
               <label className="block text-gray-700">Order Note</label>
               <textarea
                 name="orderNote"
                 value={billingDetails.orderNote}
                 onChange={handleInputChange}
-                className="w-full border border-gray-500 p-2 "
+                className="w-full border border-gray-500 p-2"
               ></textarea>
             </div>
           </form>
@@ -178,24 +176,37 @@ const Checkout = () => {
         <div className="bg-white shadow-md p-4 border border-gray-500">
           <h2 className="text-xl font-semibold mb-4">Your Order</h2>
           <div className="space-y-2">
-            {orderSummary.map((item, index) => (
-              <div key={index} className="flex justify-between">
-                <p className="text-gray-700">{item.product}</p>
-                <p className="text-red-500">${item.price.toFixed(2)}</p>
-              </div>
-            ))}
-            <div className="flex justify-between font-semibold border-t pt-2">
-              <p>Subtotal</p>
-              <p className="text-red-500">${total.toFixed(2)}</p>
-            </div>
-            <div className="flex justify-between">
-              <p>Shipping</p>
-              <p>Free</p>
-            </div>
-            <div className="flex justify-between font-semibold border-t pt-2">
-              <p>Total</p>
-              <p className="text-red-500">${total.toFixed(2)}</p>
-            </div>
+            {cartItems.length === 0 ? (
+              <p>Your cart is empty.</p>
+            ) : (
+              <>
+                {cartItems.map((item, index) => (
+                  <div key={index} className="flex justify-between">
+                    <p className="text-gray-700">{item.name}</p>
+                    <p className="text-red-500">
+                      ${item.price ? item.price.toFixed(2) : "N/A"} x{" "}
+                      {item.quantity}
+                    </p>
+                  </div>
+                ))}
+                <div className="flex justify-between font-semibold border-t pt-2">
+                  <p>Subtotal</p>
+                  <p className="text-red-500">
+                    ${total ? total.toFixed(2) : "N/A"}
+                  </p>
+                </div>
+                <div className="flex justify-between">
+                  <p>Shipping</p>
+                  <p>Free</p>
+                </div>
+                <div className="flex justify-between font-semibold border-t pt-2">
+                  <p>Total</p>
+                  <p className="text-red-500">
+                    ${total ? total.toFixed(2) : "N/A"}
+                  </p>
+                </div>
+              </>
+            )}
           </div>
           <div className="mt-4">
             <div className="mb-2">
@@ -227,12 +238,12 @@ const Checkout = () => {
                 Cash on Delivery
               </label>
             </div>
-            <Link to="/ordercomplete"
+            <button
               className="w-full bg-red-900 text-white px-4 py-2 rounded hover:bg-red-600"
               onClick={handlePlaceOrder}
             >
               Place Order
-            </Link>
+            </button>
           </div>
         </div>
       </div>

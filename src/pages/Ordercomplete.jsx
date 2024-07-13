@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 const OrderComplete = () => {
   const location = useLocation();
   const {
-    orderDetails,
+    billingDetails,
     orderSummary,
     total,
     orderNumber,
@@ -12,71 +12,65 @@ const OrderComplete = () => {
     paymentMethod,
   } = location.state || {};
 
-  if (!orderDetails) {
+  if (!orderSummary) {
     return <div>Invalid order details. Please try again.</div>;
   }
 
+  // Function to safely format price
+  const formatPrice = (price) => {
+    return !isNaN(price) && price !== undefined ? price.toFixed(2) : "0.00";
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Thank You for Your Order!</h1>
-      <p>Your order has been placed successfully. Here are the details:</p>
+      {/* Bank Details Section */}
+      <div className="border-b pb-4 mb-4">
+        <h2 className="text-lg font-semibold mb-2">Bank Details</h2>
+        <p className="mb-1">WRIST'S LTD . Bank FCMB</p>
+        <p className="mb-1">Account Number: 200233485</p>
+        <p className="mb-1">WRIST'S LTD . Union FCMB</p>
+        <p>Account Number: 110334568</p>
+      </div>
 
-      <div className="bg-white shadow-md p-4 border border-gray-500 mt-4">
-        <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-        <div className="space-y-2">
+      {/* Thank You Message and Order Details */}
+      <h1 className="text-xl font-semibold text-green-800 mb-4">
+        Thank you, your order has been received!
+      </h1>
+      <div className="border-t mt-4 pt-4">
+        <h2 className="text-lg font-semibold">Order Details</h2>
+        <p className="mb-2">Order Number: {orderNumber}</p>
+        <p className="mb-2">Date: {date}</p>
+        <p className="mb-2">Payment Method: {paymentMethod}</p>
+        <div className="border-t mt-4 pt-4">
+          <h3 className="text-lg font-semibold">Order Summary</h3>
           {orderSummary.map((item, index) => (
-            <div key={index} className="flex justify-between">
-              <p className="text-gray-700">{item.product}</p>
-              <p className="text-red-500">${item.price.toFixed(2)}</p>
+            <div key={index} className="flex justify-between py-1">
+              <p>{item.name}</p>
+              <p>
+                ${formatPrice(item.price)} x {item.quantity}
+              </p>
             </div>
           ))}
           <div className="flex justify-between font-semibold border-t pt-2">
-            <p>Subtotal</p>
-            <p className="text-red-500">${total.toFixed(2)}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Shipping</p>
-            <p>Free</p>
-          </div>
-          <div className="flex justify-between font-semibold border-t pt-2">
             <p>Total</p>
-            <p className="text-red-500">${total.toFixed(2)}</p>
+            <p className="text-red-500">${formatPrice(total)}</p>
           </div>
         </div>
       </div>
 
-      <div className="bg-white shadow-md p-4 border border-gray-500 mt-4">
-        <h2 className="text-xl font-semibold mb-4">Order Details</h2>
-        <div className="space-y-2">
-          <div className="flex justify-between">
-            <p className="font-semibold">Order Number:</p>
-            <p>{orderNumber}</p>
-          </div>
-          <div className="flex justify-between">
-            <p className="font-semibold">Date:</p>
-            <p>{date}</p>
-          </div>
-          <div className="flex justify-between">
-            <p className="font-semibold">Payment Method:</p>
-            <p>{paymentMethod}</p>
-          </div>
-          <div className="flex justify-between">
-            <p className="font-semibold">Billing Details:</p>
-            <p>
-              {orderDetails.firstName} {orderDetails.lastName}
-            </p>
-          </div>
-          <div className="flex justify-between">
-            <p className="font-semibold">Total:</p>
-            <p>${total.toFixed(2)}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white shadow-md p-4 border border-gray-500 mt-4">
-        <h2 className="text-xl font-semibold mb-4">Our Bank Details</h2>
-        <p>WRISTS LTD. Bank FCMB Account number: 200233485</p>
-        <p>WRISTS LTD. Union FCMB Account number: 110334568</p>
+      {/* Billing Details Section */}
+      <div className="border-t mt-4 pt-4">
+        <h2 className="text-lg font-semibold">Billing Details</h2>
+        <p>
+          {billingDetails.firstName} {billingDetails.lastName}
+        </p>
+        <p>{billingDetails.address}</p>
+        <p>
+          {billingDetails.city}, {billingDetails.state} {billingDetails.zip}
+        </p>
+        <p>{billingDetails.country}</p>
+        <p>Email: {billingDetails.email}</p>
+        <p>Phone: {billingDetails.phone}</p>
       </div>
     </div>
   );

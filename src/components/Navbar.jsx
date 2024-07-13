@@ -6,6 +6,9 @@ import {
   faUser,
   faQuestion,
   faTimes,
+  faHome,
+  faShoppingBag,
+  faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -18,60 +21,71 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-200 p-4">
+    <nav className="bg-[#D9D9D9] p-4">
       <div className="container mx-auto flex items-center justify-between md:justify-start relative">
-        <div className="flex items-center w-full justify-between md:justify-start">
+        {/* Hamburger Icon for Mobile */}
+        <FontAwesomeIcon
+          icon={faBars}
+          className="text-black md:hidden cursor-pointer mr-2"
+          onClick={toggleMenu}
+        />
+
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-[#943510] text-lg font-bold absolute left-1/2 transform -translate-x-1/2 md:relative md:left-auto md:transform-none md:ml-0"
+        >
+          WRIST'S
+        </Link>
+
+        {/* Mobile Icons */}
+        <div className="md:hidden flex items-center space-x-4">
           <FontAwesomeIcon
-            icon={faBars}
-            className="text-black md:hidden cursor-pointer mr-2"
-            onClick={toggleMenu}
+            icon={faSearch}
+            className="text-black cursor-pointer"
+            onClick={() => alert("Search icon clicked")}
           />
-          <Link
-            to="/"
-            className="text-orange-700 text-lg font-bold absolute left-1/2 transform -translate-x-1/2 md:relative md:left-auto md:transform-none md:ml-0"
-          >
-            WRIST'S
-          </Link>
-          <div className="md:hidden flex items-center space-x-4">
+          <Link to="/cart">
             <FontAwesomeIcon
-              icon={faSearch}
-              className="text-black cursor-pointer"
-              onClick={() => alert("Search icon clicked")}
+              icon={faCartShopping}
+              className="text-black px-4 hover:text-gray-700"
             />
-            <Link to="/cart">
-              <FontAwesomeIcon
-                icon={faCartShopping}
-                className="text-black px-4 hover:text-gray-700"
-              />
-            </Link>
-          </div>
+          </Link>
         </div>
 
         {/* Mobile Menu */}
         <div
-          className={`absolute top-0 left-0 w-full bg-gray-200 md:hidden ${
+          className={`fixed inset-0 flex items-center justify-center md:hidden ${
             menuOpen ? "block" : "hidden"
           }`}
         >
-          <div className="flex flex-col items-center mt-12">
+          <div className="bg-gray-200 w-full h-[50px] flex items-center justify-around shadow-lg">
             <FontAwesomeIcon
               icon={faTimes}
-              className="text-black cursor-pointer mb-4"
+              className="text-black text-2xl cursor-pointer"
               onClick={toggleMenu}
             />
-            <Link to="/" className="text-black text-lg font-semibold my-3">
-              Home
+            <Link
+              to="/"
+              className="text-black text-xl flex items-center"
+              onClick={toggleMenu}
+            >
+              <FontAwesomeIcon icon={faHome} />
             </Link>
-            <Link to="/cart" className="text-black text-lg font-semibold my-3">
-              Cart
+            <Link
+              to="/cart"
+              className="text-black text-xl flex items-center"
+              onClick={toggleMenu}
+            >
+              <FontAwesomeIcon icon={faCartShopping} />
             </Link>
             <Link
               to="/checkout"
-              className="text-black text-lg font-semibold my-3"
+              className="text-black text-xl flex items-center"
+              onClick={toggleMenu}
             >
-              Checkout
+              <FontAwesomeIcon icon={faReceipt} />
             </Link>
-            {/* Add more links as needed */}
           </div>
         </div>
 
