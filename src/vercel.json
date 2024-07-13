@@ -1,0 +1,4 @@
+{
+  "source": "/api/:path(.*)",
+  "destination": "https://timbu-get-all-products.reavdev.workers.dev/:path"
+}
