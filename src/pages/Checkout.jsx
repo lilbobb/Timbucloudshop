@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext";
+import ProgressSteps from "../components/Progressteps";
 
 const Checkout = () => {
   const { cartItems, getTotalPrice } = useCart();
@@ -51,6 +52,8 @@ const Checkout = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <ProgressSteps />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white shadow-md p-4 border border-gray-600">
           <h2 className="text-xl text-red-900 font-semibold mb-4">

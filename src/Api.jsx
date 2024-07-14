@@ -22,6 +22,7 @@ export const fetchProducts = async (page = 1, size = 10) => {
 // Fetch a single product by ID
 export const fetchProductById = async (id) => {
   try {
+    if (!id) throw new Error("Product ID is missing.");
     const url = `https://timbu-get-single-product.reavdev.workers.dev/?organization_id=${organizationid}&product_id=${id}&Appid=${Appid}&Apikey=${Apikey}`;
     const response = await axios.get(url);
     return response.data;

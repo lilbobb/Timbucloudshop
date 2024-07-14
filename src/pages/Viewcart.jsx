@@ -3,6 +3,7 @@ import { useCart } from "../components/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import ProgressSteps from "../components/Progressteps";
 
 const ViewCart = () => {
   const { cartItems, setCartItems } = useCart();
@@ -32,6 +33,8 @@ const ViewCart = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <ProgressSteps />
+
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="w-full lg:w-3/4 p-4">
           {cartItems.length === 0 ? (

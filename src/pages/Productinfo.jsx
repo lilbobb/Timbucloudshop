@@ -58,6 +58,7 @@ const ProductDetails = () => {
           alt={name}
           className="object-cover w-full h-64"
           onError={(e) => {
+            e.target.onerror = null; // Prevent infinite fallback loop
             e.target.src = "/fallback-image.png"; // Fallback image
           }}
         />
