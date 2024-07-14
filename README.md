@@ -1,37 +1,53 @@
+# Timbucloudshop
+
 Timbucloudshop is a fully responsive and visually appealing e-commerce web application developed with Vite, React, Tailwind CSS, and Axios. Timbu Cloud shop is built using Timbu APIs for product management and a simulated checkout flow.
 
-Features
-Product Catalog Management: Display at least 10 products with images from the Timbu API, with proper pagination.
-User Interaction: Users can view products, add them to the cart, adjust quantities, and remove items.
-Simulated Checkout Flow: A complete checkout process without real payment processing.
-Responsive Design: The application is fully responsive, providing a seamless experience across different devices.
-Error Handling: Proper UI state management and error handling for a smooth user experience.
-Technologies Used
-Vite: A fast build tool for modern web projects.
-React: A JavaScript library for building user interfaces.
-Tailwind CSS: A utility-first CSS framework for rapid UI development.
-Axios: A promise-based HTTP client for making API requests.
-Getting Started
-Prerequisites
+## Features
+- **Product Catalog Management:** Display at least 10 products with images from the Timbu API, with proper pagination.
+- **User Interaction:** Users can view products, add them to the cart, adjust quantities, and remove items.
+- **Simulated Checkout Flow:** A complete checkout process without real payment processing.
+- **Responsive Design:** The application is fully responsive, providing a seamless experience across different devices.
+- **Error Handling:** Proper UI state management and error handling for a smooth user experience.
+
+## Technologies Used
+- **Vite:** A fast build tool for modern web projects.
+- **React:** A JavaScript library for building user interfaces.
+- **Tailwind CSS:** A utility-first CSS framework for rapid UI development.
+- **Axios:** A promise-based HTTP client for making API requests.
+
+## Getting Started
+
+### Prerequisites
 Ensure you have the following installed:
+- Node.js (>= 14.x)
+- npm (>= 6.x)
 
-Node.js (>= 14.x)
-npm (>= 6.x)
+### Installation
 
-Setup environment variables:
+1. **Clone the repository:**
+    ```sh
+    git clone https://github.com/your-username/designers-shop.git
+    cd designers-shop
+    ```
 
-Create a .env file in the root of the project and add your Timbu API credentials:
+2. **Install dependencies:**
+    ```sh
+    npm install
+    ```
 
-env
-Copy code
-VITE_TIMBU_API_KEY=your_timbu_api_key
-VITE_TIMBU_API_BASE_URL=https://api.timbu.cloud/v1
-VITE_TIMBU_API_ID=your_timbu_api_id
-Running the Application
+3. **Setup environment variables:**
+    Create a `.env` file in the root of the project and add your Timbu API credentials:
+    ```env
+    VITE_TIMBU_API_KEY=your_timbu_api_key
+    VITE_TIMBU_API_BASE_URL=https://api.timbu.cloud/v1
+    VITE_TIMBU_API_ID=your_timbu_api_id
+    ```
+
+### Running the Application
 To start the development server:
-
+```sh
 npm run dev
-Open http://localhost:3000 to view it in your browser.
+
 
 Project Structure
 
