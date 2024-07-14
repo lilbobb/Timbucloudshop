@@ -47,7 +47,7 @@ const ViewCart = () => {
                   className="flex items-center justify-between mb-4"
                 >
                   <img
-                    src={item.image}
+                    src={item.imageUrl}
                     alt={item.name}
                     className="w-16 h-16 object-cover rounded"
                   />
@@ -116,9 +116,9 @@ const ViewCart = () => {
             </>
           )}
         </div>
-        <div className="w-full lg:w-1/4 p-4">
-          <h2 className="text-xl font-semibold mb-4">Cart Totals</h2>
-          <div className="flex flex-col space-y-2">
+        <div className="w-full lg:w-3/4 p-4">
+          <h2 className="text-xl font-semibold mb-8">Cart Totals</h2>
+          <div className="flex flex-col space-y-4">
             <div className="flex justify-between">
               <p className="font-semibold">Subtotal:</p>
               <p className="font-semibold">${getTotalPrice().toFixed(2)}</p>
@@ -127,7 +127,7 @@ const ViewCart = () => {
               <p className="font-semibold">Shipping:</p>
               <p className="font-semibold">$5.00</p>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between mb-4">
               <p className="font-semibold">Total:</p>
               <p className="font-semibold">
                 ${(getTotalPrice() + 5).toFixed(2)}
@@ -135,7 +135,7 @@ const ViewCart = () => {
             </div>
             <Link
               to="/checkout"
-              className="w-full bg-red-700 text-white text-center px-4 py-2 hover:bg-red-500 mt-4 lg:bg-blue-700 lg:hover:bg-blue-500"
+              className="w-full bg-red-700 text-[#ffffff] text-center px-4 py-2 hover:bg-red-500 mt-4 lg:bg-[#A22D2A] lg:hover:bg-blue-500"
             >
               PROCEED TO CHECKOUT
             </Link>

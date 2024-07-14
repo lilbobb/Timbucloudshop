@@ -21,17 +21,16 @@ const OrderComplete = () => {
     return <div>Invalid order details. Please try again.</div>;
   }
 
-  // Function to safely format price
   const formatPrice = (price) => {
-    return !isNaN(price) && price !== undefined ? price.toFixed(2) : "0.00";
+    const number = parseFloat(price);
+    return !isNaN(number) ? number.toFixed(2) : "0.00";
   };
 
   return (
     <div className="container mx-auto p-4" style={{ maxWidth: "90%" }}>
-    <ProgressSteps/>
+      <ProgressSteps />
 
       <div className="md:flex justify-between items-start">
-        {/* Bank Details Section */}
         <div className="border-b md:border-b-0 md:pr-8 pb-4 mb-4 md:mb-0 mt-10">
           <h2 className="text-lg font-semibold mb-5">Bank Details</h2>
           <p className="mb-2">WRIST'S LTD. Bank FCMB</p>
@@ -40,7 +39,6 @@ const OrderComplete = () => {
           <p>Account Number: 110334568</p>
         </div>
 
-        {/* Thank You Message and Order Details */}
         <div className="md:flex-2 md:pl-8 mt-10">
           <h1 className="text-xl font-semibold text-green-800 mb-4">
             Thank you, your order has been received!
@@ -56,7 +54,6 @@ const OrderComplete = () => {
         </div>
       </div>
 
-      {/* Detailed Order Information */}
       <div className="bg-white mt-8">
         <h3 className="text-lg font-semibold text-left">Order Details</h3>
         <div className="border-t border-[#b3b3b3] mt-4 pt-4">
@@ -78,10 +75,6 @@ const OrderComplete = () => {
             <p>Shipping</p>
             <p>${formatPrice(shippingCost)}</p>
           </div>
-          <div className="flex justify-between py-1 font-semibold">
-            <p>Payment Method</p>
-            <p>{paymentMethod}</p>
-          </div>
           <div className="flex justify-between py-1 font-semibold border-[#b3b3b3] border-t pt-2">
             <p>Total</p>
             <p className="text-red-500">${formatPrice(total)}</p>
@@ -95,7 +88,6 @@ const OrderComplete = () => {
         </div>
       </div>
 
-      {/* Billing and Shipping Details Section */}
       <div className="md:flex mt-10">
         <div className="md:flex-1 md:pr-8">
           <h2 className="text-lg font-semibold">Billing Details</h2>

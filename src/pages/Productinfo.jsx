@@ -1,26 +1,42 @@
+// ProductDetails.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductById } from "../Api";
-import { useCart } from "../components/CartContext";
+import axios from "axios";
+
+const Apikey = "9f0107ebc147481caa81275271e10a6920240712132305877558";
+const Appid = "Y9A66PC22ZLJORZ";
+const organizationid = "eb1b7ba0e53c4f7faa7a82ec423daae5";
+
+const fetchProductById = async (id) => {
+  try {
+    const response = await axios.get(
+      `https://timbu-get-single-product.reavdev.workers.dev/?organization_id=${organizationid}&product_id=${id}&Appid=${Appid}&Apikey=${Apikey}`
+    );
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(`Unexpected response status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error(`Error fetching product with ID ${id}:`, error);
+    throw new Error("Failed to fetch product details");
+  }
+};
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
         setLoading(true);
-        console.log(`Fetching product with ID: ${id}`);
         const data = await fetchProductById(id);
-        console.log("Product data:", data);
         setProduct(data);
         setError(null);
       } catch (error) {
-        console.error("Error fetching product details:", error);
         setError("Failed to load product details. Please try again.");
       } finally {
         setLoading(false);
@@ -66,20 +82,6 @@ const ProductDetails = () => {
           <h2 className="text-lg font-semibold text-red-800">{name}</h2>
           <p className="text-red-800 font-semibold mt-2">${priceDisplay}</p>
           <p className="mt-4">{description}</p>
-          <button
-            onClick={() =>
-              addToCart({
-                id: unique_id,
-                name,
-                price,
-                quantity: 1,
-                imageUrl,
-              })
-            }
-            className="mt-4 px-4 py-2 bg-[#A02724] text-white rounded"
-          >
-            Add to Cart
-          </button>
         </div>
       </div>
     </div>

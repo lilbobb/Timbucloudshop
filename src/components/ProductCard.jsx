@@ -1,11 +1,13 @@
+// ProductCard.js
 import React, { useState } from "react";
 import { useCart } from "./CartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, closeCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleQuantityChange = (e) => {
     setQuantity(parseInt(e.target.value, 10));
@@ -15,16 +17,13 @@ const ProductCard = ({ product }) => {
     setLoading(true);
     await addToCart({ ...product, price, quantity, imageUrl });
     setLoading(false);
+    closeCart(); // Close the cart after adding the item
+    navigate("/"); // Navigate to home or another route
   };
 
   const { name, photos, current_price } = product;
-
-  // Safely access current_price[0].LRD[0] using optional chaining
   const price = current_price?.[0]?.LRD?.[0] ?? 0;
-
-  // Ensure price is a number and default to "N/A" if not available
   const priceDisplay = !isNaN(price) ? price.toFixed(2) : "N/A";
-
   const imageUrl =
     photos && photos.length > 0
       ? `https://api.timbu.cloud/images/${photos[0].url}`
@@ -38,7 +37,7 @@ const ProductCard = ({ product }) => {
           alt={name}
           className="object-cover w-full h-40 md:h-64"
           onError={(e) => {
-            e.target.src = "/fallback-image.png"; // Fallback image
+            e.target.src = "/fallback-image.png";
           }}
         />
       </Link>
@@ -57,26 +56,23 @@ const ProductCard = ({ product }) => {
               id="quantity"
               value={quantity}
               onChange={handleQuantityChange}
-              aria-label="Select quantity"
-              className="bg-white border-none focus:outline-none"
+              className="bg-white border rounded"
             >
-              {[...Array(10).keys()].map((i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((q) => (
+                <option key={q} value={q}>
+                  {q}
                 </option>
               ))}
             </select>
           </div>
+          <button
+            onClick={handleAddToCart}
+            className="bg-[#943510] text-white px-4 py-2 rounded"
+            disabled={loading}
+          >
+            {loading ? "Adding..." : "Add to Cart"}
+          </button>
         </div>
-        <button
-          onClick={handleAddToCart}
-          disabled={loading}
-          className={`bg-[#A02724] text-white px-4 py-2 hover:bg-red-800 flex items-center justify-center font-semibold text-sm md:text-base rounded transition ${
-            loading ? "opacity-50" : ""
-          }`}
-        >
-          {loading ? "Adding..." : "Add to Cart"}
-        </button>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ export const useCart = () => useContext(CartContext);
 
 const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false); // New state for cart visibility
 
   const addToCart = (product) => {
     if (
@@ -30,6 +31,9 @@ const CartProvider = ({ children }) => {
         return [...prevItems, { ...product }];
       }
     });
+
+    // Open the cart when an item is added
+    setIsCartOpen(true);
   };
 
   const removeFromCart = (productId) => {
@@ -76,6 +80,16 @@ const CartProvider = ({ children }) => {
     }, 0);
   };
 
+  // Function to toggle cart visibility
+  const toggleCart = () => {
+    setIsCartOpen((prev) => !prev);
+  };
+
+  // Function to close the cart
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -84,6 +98,9 @@ const CartProvider = ({ children }) => {
         removeFromCart,
         clearCart,
         getTotalPrice,
+        isCartOpen,
+        toggleCart,
+        closeCart, // Expose closeCart function
       }}
     >
       {children}

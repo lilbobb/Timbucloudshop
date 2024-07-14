@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React from 'react';
+import { useCart } from '../components/CartContext';
 import {
-  faSearch,
-  faCartShopping,
-  faBars,
-  faUser,
-  faQuestion,
-  faTimes,
-  faHome,
-  faShoppingBag,
-  faReceipt,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+  faSearch, faCartShopping, faBars, faUser, faQuestion, faTimes, faHome, faReceipt
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
+import Cart from '../pages/Cart';
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { isCartOpen, toggleCart, closeCart } = useCart();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false); // State for hamburger menu
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  const handleMenuToggle = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const handleCartToggle = () => {
+    toggleCart();
+    setIsMenuOpen(false); // Optionally close the menu when cart is toggled
   };
 
   return (
@@ -27,7 +27,7 @@ const Navbar = () => {
         <FontAwesomeIcon
           icon={faBars}
           className="text-black md:hidden cursor-pointer mr-2"
-          onClick={toggleMenu}
+          onClick={handleMenuToggle} // Toggle hamburger menu
         />
 
         {/* Logo */}
@@ -45,44 +45,41 @@ const Navbar = () => {
             className="text-black cursor-pointer"
             onClick={() => alert("Search icon clicked")}
           />
-          <Link to="/cart">
-            <FontAwesomeIcon
-              icon={faCartShopping}
-              className="text-black px-4 hover:text-gray-700"
-            />
-          </Link>
+          <FontAwesomeIcon
+            icon={faCartShopping}
+            className="text-black px-4 hover:text-gray-700 cursor-pointer"
+            onClick={handleCartToggle} // Toggle cart
+          />
         </div>
 
         {/* Mobile Menu */}
         <div
           className={`fixed inset-0 flex items-center justify-center md:hidden ${
-            menuOpen ? "block" : "hidden"
+            isMenuOpen ? "block" : "hidden"
           }`}
         >
           <div className="bg-gray-200 w-full h-[50px] flex items-center justify-around shadow-lg">
             <FontAwesomeIcon
               icon={faTimes}
               className="text-black text-2xl cursor-pointer"
-              onClick={toggleMenu}
+              onClick={handleMenuToggle} // Close hamburger menu
             />
             <Link
               to="/"
               className="text-black text-xl flex items-center"
-              onClick={toggleMenu}
+              onClick={() => { handleMenuToggle(); closeCart(); }}
             >
               <FontAwesomeIcon icon={faHome} />
             </Link>
-            <Link
-              to="/cart"
-              className="text-black text-xl flex items-center"
-              onClick={toggleMenu}
-            >
-              <FontAwesomeIcon icon={faCartShopping} />
-            </Link>
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              className="text-black text-xl flex items-center cursor-pointer"
+              onClick={() => { handleMenuToggle(); handleCartToggle(); }}
+            />
             <Link
               to="/checkout"
               className="text-black text-xl flex items-center"
-              onClick={toggleMenu}
+              onClick={() => { handleMenuToggle(); closeCart(); }}
             >
               <FontAwesomeIcon icon={faReceipt} />
             </Link>
@@ -129,14 +126,14 @@ const Navbar = () => {
 
         {/* Cart Icon for Large Screens */}
         <div className="hidden md:flex items-center space-x-4 ml-6">
-          <Link to="/cart">
-            <FontAwesomeIcon
-              icon={faCartShopping}
-              className="text-black px-4 hover:text-gray-700"
-            />
-          </Link>
+          <FontAwesomeIcon
+            icon={faCartShopping}
+            className="text-black px-4 hover:text-gray-700 cursor-pointer"
+            onClick={handleCartToggle} // Toggle cart
+          />
         </div>
       </div>
+      {isCartOpen && <Cart onClose={closeCart} />}
     </nav>
   );
 };

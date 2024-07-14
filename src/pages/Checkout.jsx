@@ -35,18 +35,21 @@ const Checkout = () => {
   const total = getTotalPrice();
 
   const handlePlaceOrder = () => {
-    const orderNumber = Math.floor(Math.random() * 1000000000);
-    const date = new Date().toLocaleDateString();
-
+    const subtotal = getTotalPrice();
+    const shippingCost = 0; // or your actual shipping cost calculation
     const orderDetails = {
       billingDetails,
       orderSummary: cartItems,
-      total,
-      orderNumber,
-      date,
+      subtotal,
+      shippingCost,
+      total: subtotal + shippingCost,
+      orderNumber: Math.floor(Math.random() * 1000000000),
+      date: new Date().toLocaleDateString(),
       paymentMethod,
+      note: billingDetails.orderNote,
     };
-
+  
+    console.log('Order Details in Checkout:', orderDetails);
     navigate("/ordercomplete", { state: orderDetails });
   };
 

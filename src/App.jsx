@@ -9,6 +9,7 @@ import Viewcart from "./pages/Viewcart";
 import OrderComplete from "./pages/Ordercomplete";
 import Checkout from "./pages/Checkout";
 import ProductDetails from "./pages/Productinfo";
+import ProgressSteps from "./components/Progressteps";
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/ordercomplete" element={<OrderComplete />} />
+              <Route path="/Progresssteps" element={<ProgressSteps />} />
+
             </Routes>
           </main>
           <Footer />

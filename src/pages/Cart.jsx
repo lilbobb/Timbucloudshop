@@ -1,10 +1,11 @@
+// Cart.js
 import React from "react";
 import { useCart } from "../components/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-const Cart = () => {
+const Cart = ({ onClose }) => {
   const { cartItems, removeFromCart, getTotalPrice } = useCart();
 
   const handleRemoveFromCart = (productId) => {
@@ -12,7 +13,13 @@ const Cart = () => {
   };
 
   return (
-    <div className="bg-gray-300 shadow-md p-4 border-b-2 border-gray-900">
+    <div className="bg-gray-300 shadow-md p-4 border-b-2 border-gray-900 relative">
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-red-500 hover:text-red-700"
+      >
+        <FontAwesomeIcon icon={faTimes} className="text-black"/>
+      </button>
       <h2 className="text-2xl font-semibold mb-4 border-b-2 border-red-800">
         Cart
       </h2>
@@ -26,7 +33,7 @@ const Cart = () => {
               className="flex items-center justify-between mb-2"
             >
               <img
-                src={item.imageUrl} // Updated to use imageUrl
+                src={item.imageUrl}
                 alt={item.name}
                 className="w-16 h-16 object-cover rounded"
               />
@@ -59,13 +66,15 @@ const Cart = () => {
             </div>
             <Link
               to="/viewcart"
-              className="bg-black text-white px-4 py-2 hover:bg-gray-800 text-center justify-center"
+              className="bg-[#943510] text-white px-4 py-2 hover:bg-gray-800 text-center justify-center sm:bg-[#000000]"
+              onClick={onClose} // Close cart when navigating
             >
               VIEW CART
             </Link>
             <Link
               to="/checkout"
-              className="bg-black text-white mt-2 px-4 py-2 hover:bg-gray-800 text-center justify-center"
+              className="bg-[#943510] text-white mt-2 px-4 py-2 hover:bg-gray-800 text-center justify-center sm:bg-[#000000]"
+              onClick={onClose} // Close cart when navigating
             >
               CHECKOUT (${getTotalPrice().toFixed(2)})
             </Link>
