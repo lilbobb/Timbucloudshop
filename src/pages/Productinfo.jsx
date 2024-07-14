@@ -14,7 +14,9 @@ const ProductDetails = () => {
     const fetchProductDetails = async () => {
       try {
         setLoading(true);
+        console.log(`Fetching product with ID: ${id}`);
         const data = await fetchProductById(id);
+        console.log("Product data:", data);
         setProduct(data);
         setError(null);
       } catch (error) {
@@ -32,14 +34,19 @@ const ProductDetails = () => {
   if (error) return <p className="text-red-500">{error}</p>;
   if (!product) return <p>No product details found.</p>;
 
-  const { unique_id, name, photos, current_price, description } = product;
+  const {
+    unique_id,
+    name,
+    photos = [],
+    current_price = [],
+    description = "",
+  } = product;
 
   const price = current_price?.[0]?.LRD?.[0] ?? 0;
-
   const priceDisplay = !isNaN(price) ? price.toFixed(2) : "N/A";
 
   const imageUrl =
-    photos && photos.length > 0
+    photos.length > 0
       ? `https://api.timbu.cloud/images/${photos[0].url}`
       : "/fallback-image.png";
 
@@ -51,7 +58,7 @@ const ProductDetails = () => {
           alt={name}
           className="object-cover w-full h-64"
           onError={(e) => {
-            e.target.src = "/fallback-image.png"; 
+            e.target.src = "/fallback-image.png"; // Fallback image
           }}
         />
         <div className="p-4">
@@ -61,11 +68,11 @@ const ProductDetails = () => {
           <button
             onClick={() =>
               addToCart({
-                id: unique_id, 
+                id: unique_id,
                 name,
                 price,
                 quantity: 1,
-                imageUrl, 
+                imageUrl,
               })
             }
             className="mt-4 px-4 py-2 bg-[#A02724] text-white rounded"

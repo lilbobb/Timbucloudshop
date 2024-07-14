@@ -7,7 +7,7 @@ const organizationid = "eb1b7ba0e53c4f7faa7a82ec423daae5";
 // Fetch multiple products
 export const fetchProducts = async (page = 1, size = 10) => {
   try {
-    const url = `/api.timbu.cloud//?organization_id=${organizationid}&reverse_sort=false&page=${page}&size=${size}&Appid=${Appid}&Apikey=${Apikey}`;
+    const url = `https://timbu-get-all-products.reavdev.workers.dev/?organization_id=${organizationid}&reverse_sort=false&page=${page}&size=${size}&Appid=${Appid}&Apikey=${Apikey}`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -22,7 +22,7 @@ export const fetchProducts = async (page = 1, size = 10) => {
 // Fetch a single product by ID
 export const fetchProductById = async (id) => {
   try {
-    const url = `/api/timbu-get-single-product.reavdev.workers.dev/?organization_id=${organizationid}&product_id=${id}&Appid=${Appid}&Apikey=${Apikey}`;
+    const url = `https://timbu-get-single-product.reavdev.workers.dev/?organization_id=${organizationid}&product_id=${id}&Appid=${Appid}&Apikey=${Apikey}`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {

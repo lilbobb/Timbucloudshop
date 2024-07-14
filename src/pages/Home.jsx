@@ -17,10 +17,10 @@ const Home = () => {
     const getProducts = async (page) => {
       try {
         setLoading(true);
-        const data = await fetchProducts(page, 10); // Fetch 10 products per page
-        console.log(data)
-        setProducts(data.items);
-        setTotalPages(Math.ceil(data.total / 10)); // Assuming the API returns the total count of products
+        const { items, total } = await fetchProducts(page, 10); // Fetch 10 products per page
+        console.log(items, total); // Log to ensure data is as expected
+        setProducts(items);
+        setTotalPages(Math.ceil(total / 10)); // Calculate total pages based on total count
         setError(null);
       } catch (error) {
         setError("Failed to load products. Please try again.");
